@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Order History";
+}
+
+@model List<JuiceShopDotNet.Safe.Data.Order>
+
+<h1 class="box-shadow">Order History</h1>
+
+<div>
+    <table>
+        <tr>
+            <th>Order Date</th>
+            <th>Amount</th>
+            <th>Credit Card</th>
+        </tr>
+        @if (Model.Count == 0)
+        {
+            <tr><td colspan="3">No orders completed</td></tr>    
+        }
+        else
+        {
+            foreach (var order in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="/Shopping/Details/@order.OrderID">@order.OrderCompletedOn.Value.ToString("yyyy-MM-dd")</a>
+                    </td>
+                    <td>$@order.AmountPaid</td>
+                    <td>Last 4 digits: @order.CreditCardLastFour</td>
+                </tr>
+            }
+        }
+    </table>
+</div>

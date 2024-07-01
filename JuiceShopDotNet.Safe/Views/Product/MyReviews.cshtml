@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "My Reviews";
+}
+
+@model List<JuiceShopDotNet.Safe.Data.ProductReview>
+
+<div class="shopping-cart">
+    <table class="items">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>Product</th>
+                <th>Review</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody id="ItemList">
+            @foreach (var detail in Model)
+            {
+                <tr>
+                    <td><img src="/images/products/@detail.Product.image" alt="@detail.Product.name" /></td>
+                    <td>@detail.Product.name</td>
+                    <td>
+                        @detail.ReviewText
+                    </td>
+                    <td>
+                        <a href="/Product/Review/@detail.ProductReviewID">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

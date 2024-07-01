@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Added " + Model.Product.name + " to cart";
+}
+
+@model AddToCartModel
+
+<h1 class="box-shadow">Added @Model.Product.name to cart</h1>
+
+<div class="product-detail">
+    <div class="image">
+        <img src="~/images/products/@Model.Product.image" alt="@Model.Product.name" />
+    </div>
+    <div class="description">
+        <h2>@Model.Product.name</h2>
+        <p>@Html.Raw(Model.Product.description)</p>
+        <p>
+            Added @Model.ShoppingCartItem.Quantity at $@Model.ShoppingCartItem.Price each
+        </p>
+
+        <div class="action-container">
+            <a href="/" class="continue-shopping">Continue Shopping</a>
+            - OR -
+            <a href="/Shopping/Review" class="review">Checkout</a>
+        </div>
+    </div>
+</div>
+

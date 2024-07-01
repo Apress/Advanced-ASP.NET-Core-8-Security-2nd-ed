@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Identity
+@{
+    ViewData["Title"] = "Credit Application";
+}
+
+@model CreditApplicationModel
+
+<h1 class="box-shadow">Credit Application</h1>
+
+<div class="product-detail">
+    <form method="post">
+        <div class="row">
+            <label asp-for="FullName">Full Name</label>
+            <input asp-for="FullName" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <label asp-for="Birthdate">Birthdate</label>
+            <input asp-for="Birthdate" />
+            <span asp-validation-for="Birthdate" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <label asp-for="SocialSecurityNumber">US Social Security Number</label>
+            <input asp-for="SocialSecurityNumber" />
+            <span asp-validation-for="SocialSecurityNumber" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <label asp-for="EmploymentStatus">Employment Status</label>
+            <select asp-for="EmploymentStatus">
+                <option value="">-- Please Select --</option>
+                <option>Employed</option>
+                <option>Self-Employed</option>
+                <option>Unemployed</option>
+            </select>
+            <span asp-validation-for="EmploymentStatus" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <label asp-for="Income">Your Income (rounded to the nearest dollar)</label>
+            <input asp-for="Income" />
+            <span asp-validation-for="Income" class="text-danger"></span>
+        </div>
+        <div><button type="submit">Apply now!</button></div>
+    </form>
+</div>
+

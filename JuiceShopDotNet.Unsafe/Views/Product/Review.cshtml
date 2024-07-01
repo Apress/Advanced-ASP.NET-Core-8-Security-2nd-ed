@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Edit Review";
+}
+
+@model JuiceShopDotNet.Unsafe.Data.ProductReview
+
+<h1 class="box-shadow">Edit Review</h1>
+
+<div class="shopping-cart">
+    <form method="post">
+        <input type="hidden" asp-for="ProductReviewID" />
+        <div class="row">
+            <label asp-for="ReviewText">Review Text</label>
+            <textarea asp-for="ReviewText"></textarea>
+            <span asp-validation-for="ReviewText" class="text-danger"></span>
+        </div>
+
+        <div class="row">
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Update</button>
+        </div>
+    </form>
+</div>

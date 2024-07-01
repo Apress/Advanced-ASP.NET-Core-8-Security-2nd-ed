@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Credit Application Status";
+}
+
+@model JuiceShopDotNet.Safe.Data.CreditApplication
+
+<h1 class="box-shadow">Your Credit Application Status</h1>
+@if (Model == null)
+{
+    <p>You can apply for credit by <a href="/Credit/Apply">clicking here</a>.</p>
+}
+else if (Model.IsApproved.HasValue)
+{
+    if (Model.IsApproved.Value)
+    {
+        <p>Congratulations! Your credit was approved on: @Model.DecisionDate.Value.ToString("dd-MM-yyyy")</p>
+    }
+    else
+    {
+        <p>We regret to inform you that your credit was not approved. Better luck next time!</p>
+    }
+}
+else
+{
+    <p>We have received your request and will get back to you between 1 and 10,000 days.</p>
+}

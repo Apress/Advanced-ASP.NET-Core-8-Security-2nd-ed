@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "View Order";
+}
+
+@model JuiceShopDotNet.Safe.Data.Order
+
+<h1 class="box-shadow">View Order</h1>
+
+<div class="shopping-cart">
+    <table class="items">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody id="ItemList">
+            @foreach (var detail in Model.OrderProducts)
+            {
+                <tr>
+                    <td><img src="/images/products/@detail.Product.image" alt="@detail.Product.name" /></td>
+                    <td>@detail.Product.name</td>
+                    <td>@detail.Quantity</td>
+                    <td id="price-@detail.ProductID">$@detail.ProductPrice</td>
+                    <td id="total-@detail.ProductID">$@(detail.ProductPrice * detail.Quantity)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="total">
+        Total price: $<span id="Total">@Model.OrderProducts.Sum(op => op.ProductPrice * op.Quantity)</span>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Checkout";
+}
+
+@model Order
+
+<h1 class="box-shadow">Checkout</h1>
+
+<div class="shopping-cart">
+    <form action="/Shopping/Checkout" method="post">
+        <input type="hidden" asp-for="UserID" />
+        <input type="hidden" asp-for="AmountPaid" />
+        <h2>Total amount: $@Model.AmountPaid</h2>
+        <div class="row">
+            <label asp-for="CreditCardNumber">Card Number</label>
+            <input asp-for="CreditCardNumber" />
+            <span asp-validation-for="CreditCardNumber" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <label asp-for="CardExpirationMonth">Expiration Month</label>
+            <select asp-for="CardExpirationMonth">
+                <option value="">--</option>
+                <option value="01">01 - January</option>
+                <option value="02">02 - February</option>
+                <option value="03">03 - March</option>
+                <option value="04">04 - April</option>
+                <option value="05">05 - May</option>
+                <option value="06">06 - June</option>
+                <option value="07">07 - July</option>
+                <option value="08">08 - August</option>
+                <option value="09">09 - September</option>
+                <option value="10">10 - October</option>
+                <option value="11">11 - November</option>
+                <option value="12">12 - December</option>
+            </select>
+            <span asp-validation-for="CardExpirationMonth" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <label asp-for="CardExpirationYear">Expiration Year</label>
+            <select asp-for="CardExpirationYear">
+                <option value="">--</option>
+                @for (int i = 0; i < 20; i++)
+                {
+                    <option>@(DateTime.Now.Year + i)</option>
+                }
+            </select>
+            <span asp-validation-for="CardExpirationMonth" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <label asp-for="CardCvcNumber">CVC</label>
+            <input asp-for="CardCvcNumber" />
+            <span asp-validation-for="CardCvcNumber" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <label asp-for="BillingPostalCode">Billing Postal Code</label>
+            <input asp-for="BillingPostalCode" />
+            <span asp-validation-for="BillingPostalCode" class="text-danger"></span>
+        </div>
+        <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Pay Now</button>
+    </form>
+</div>

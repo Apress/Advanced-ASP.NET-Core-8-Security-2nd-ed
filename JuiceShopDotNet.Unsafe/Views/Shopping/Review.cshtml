@@ -1,0 +1,121 @@
+﻿@{
+    ViewData["Title"] = "Shopping cart";
+}
+
+@model AddToCartModel
+
+<h1 class="box-shadow">Shopping Cart</h1>
+
+<div class="shopping-cart">
+    <table class="items">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody id="ItemList"></tbody>
+    </table>
+    <div class="total">
+        Total price: $<span id="Total"></span>
+    </div>
+    <div class="button-container">
+        <a href="/Shopping/Checkout" class="checkout">Checkout</a>
+    </div>
+</div>
+
+
+<script>
+    let listContainer = document.getElementById("ItemList");
+    listContainer.innerHTML = "";
+
+    let cookie = decodeURIComponent(getCookie("ShoppingCart"));
+    let list = JSON.parse(cookie);
+
+    for (let i = 0; i < list.length; i++) 
+    { 
+        let item = list[i];
+        let element = "<tr><td><img src='/images/products/";
+        element += item.ImageName;
+        element += "' /></td><td>";
+        element += item.ProductName;
+        element += "</td><td align='right'>";
+        element += getQuantityDropdown(item.Quantity, item.ProductID);
+        element += "</td><td align='right'>$";
+        element += item.Price;
+        element += "</td><td align='right' id='total-"
+        element += item.ProductID;
+        element += "'>&nbsp;</td></tr>";
+
+        listContainer.innerHTML += element;
+    }
+
+    recalculateTotals(list);
+
+    //Source: https://www.w3schools.com/js/js_cookies.asp
+    function getCookie(cname) {
+        let name = cname + "=";
+        let ca = document.cookie.split(';');
+
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+
+        return "";
+    }
+
+    function updateQuantity(select, id) {
+        let cookie = decodeURIComponent(getCookie("ShoppingCart"));
+        let list = JSON.parse(cookie);
+
+        for (let i = 0; i < list.length; i++) { 
+            if (list[i].ProductID == id) { 
+                list[i].Quantity = Number(select.value);
+                let listAsString = JSON.stringify(list);
+                document.cookie = "ShoppingCart=" + encodeURIComponent(listAsString) + ";path=/";
+                recalculateTotals(list);
+                return;
+            }
+        }
+    }
+
+    function recalculateTotals(list) {
+        let totalPrice = 0;
+
+        for (let i = 0; i < list.length; i++) {
+            let item = list[i];
+            let newTotal = document.getElementById("quantity-" + item.ProductID).value * item.Price;
+            document.getElementById("total-" + item.ProductID).innerHTML = "$" + newTotal.toFixed(2);
+            totalPrice += newTotal;
+        }
+
+        document.getElementById("Total").innerHTML = totalPrice.toFixed(2);
+    }
+
+    function getQuantityDropdown(quantity, id) { 
+        let select = "<select onchange='updateQuantity(this, " + id + ")' id='quantity-" + id + "'>";
+
+        for (let i = 0; i <= 10; i++) { 
+            select += "<option";
+
+            if (quantity == i)
+                select += " selected='selected'";
+
+            select += ">";
+            select += i;
+            select += "</option>";
+        }
+
+        select += "</select>";
+        return select;
+    }
+</script>

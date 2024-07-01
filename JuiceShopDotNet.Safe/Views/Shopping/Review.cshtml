@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Review cart";
+}
+
+@model JuiceShopDotNet.Safe.Data.Order
+
+<h1 class="box-shadow">Review Cart</h1>
+
+<div class="shopping-cart">
+    <form method="post">
+        <table class="items">
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody id="ItemList">
+                @foreach (var detail in Model.OrderProducts)
+                {
+                    <tr>
+                        <td><img src="/images/products/@detail.Product.image" alt="@detail.Product.name" /></td>
+                        <td>@detail.Product.name</td>
+                        <td>
+                            <select id="quantity-@detail.ProductID" name="Quantity[@detail.ProductID]" product="@detail.ProductID" class="product-quantity" price="@detail.ProductPrice">
+                                @for (var i = 0; i < Math.Max(detail.Quantity, 10); i++)
+                                {
+                                    if (detail.Quantity == i)
+                                    { <option selected="selected">@i</option> }
+                                    else
+                                    { <option>@i</option> }
+                                }
+                            </select>
+                        </td>
+                        <td id="price-@detail.ProductID">$@detail.ProductPrice</td>
+                        <td id="total-@detail.ProductID">$@(detail.ProductPrice * detail.Quantity)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="total">
+            Total price: $<span id="Total">@Model.OrderProducts.Sum(op => op.ProductPrice * op.Quantity)</span>
+        </div>
+        <div class="button-container">
+            <button type="submit">Checkout</button>
+        </div>
+    </form>
+</div>
+
+@section Head
+{
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" crossorigin="anonymous"></script>
+}
+
+@section Scripts
+{
+    <script src="/js/shopping-review.js"></script>
+}

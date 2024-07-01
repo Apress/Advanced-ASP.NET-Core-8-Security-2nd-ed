@@ -1,0 +1,80 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juice Shop Copy (Unsafe Version) - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Site.css" asp-append-version="true" />
+    @await RenderSectionAsync("Head", required: false)
+</head>
+<body>
+    <header>
+        <nav class="box-shadow">
+            <div class="">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/JuiceShop_Logo.png" alt="Juice Shop Logo" />
+                </a>
+                <a class="navbar-brand desktop-only" asp-area="" asp-controller="Home" asp-action="Index">
+                    Juice Shop Copy (Unsafe Version)
+                </a>
+                <partial name="_LoginPartial" />
+            </div>
+        </nav>
+    </header>
+    <div class="layout-left">
+        <ul class="side-nav">
+            <li><a href="/Home/About">About This Site</a></li>
+            <li><a href="/Home/Privacy">Privacy</a></li>
+        </ul>
+        <hr class="desktop-only" />
+        <ul class="side-nav">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <li class="nav-item">
+                    <a class="nav-link text-dark" title="Order History" href="/Shopping/History">Order History</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" title="Credit Application" href="/Credit">Credit Line</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" title="My Reviews" href="/Product/MyReviews">My Reviews</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My Account</a>
+                </li>
+                <li class="nav-item">
+                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <button type="submit" class="logout-button">Logout</button>
+                    </form>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="layout-right">
+        <main role="main" class="main">
+            @RenderBody()
+        </main>
+    </div>
+    <br clear="all" />
+    <footer>
+        <div class="container">
+            &copy; 2024 - Opperis Technologies LLC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

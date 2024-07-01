@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Products";
+}
+
+@model HomeModel
+
+<h1 class="box-shadow">All Products</h1>
+
+@foreach (var product in Model.Products)
+{
+    <a href="/Product/Details/@product.id" class="product-tile box-shadow">
+        <div class="img-container">
+            <img alt="@product.name" src="/images/products/@product.image" />
+        </div>
+        <div class="text-container">
+            <div class="item-name">@product.name</div>
+            <div class="item-price">$@product.displayPrice</div>
+        </div>
+    </a>
+}
+<br clear="all" />
+<div class="product-pager">
+    <span class="product-pager-text">
+        Items per page:
+        <select id="ItemsPerPage" onchange="window.location.href = '/?page=1&pageSize=' + this.value">
+            @if (Model.PageSize == 12) { <option selected="selected">12</option> }
+            else { <option>12</option> }
+            @if (Model.PageSize == 24) { <option selected="selected">24</option> }
+            else { <option>24</option> }
+            @if (Model.PageSize == 48) { <option selected="selected">48</option> }
+            else { <option>48</option> }
+        </select>
+        <span class="product-counter-location">@((Model.PageNumber - 1) * Model.PageSize + 1) - @Math.Min(Model.PageNumber * Model.PageSize, Model.TotalProductCount) of @Model.TotalProductCount</span>
+    </span>
+    <a href="/?page=@(Model.PageNumber == 1 ? 1 : Model.PageNumber - 1)&pageSize=@Model.PageSize">
+        <svg viewBox="0 0 24 24" focusable="false" class="@(Model.PageNumber == 1 ? "pager pager-disabled" : "pager pager-enabled")"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
+    </a>
+    <a href="/?page=@(Model.PageNumber * Model.PageSize >= Model.TotalProductCount ? Model.PageNumber : Model.PageNumber + 1)&pageSize=@Model.PageSize">
+        <svg viewBox="0 0 24 24" focusable="false" class="@(Model.PageNumber * Model.PageSize >= Model.TotalProductCount ? "pager pager-disabled" : "pager pager-enabled")"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>
+    </a>
+</div>

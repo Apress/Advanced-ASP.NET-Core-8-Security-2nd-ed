@@ -1,0 +1,82 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using JuiceShopDotNet.Safe.Data;
+@{
+    ViewData["Title"] = "Product - " + Model.Product.name;
+}
+
+@model ProductDetailsModel
+@inject SignInManager<JuiceShopUser> SignInManager
+
+<h1 class="box-shadow">@Model.Product.name</h1>
+
+<div class="product-detail">
+    <div class="image">
+        <img src="~/images/products/@Model.Product.image" alt="@Model.Product.name" />
+    </div>
+    <div class="product-detail-content">
+        <form action="/Shopping/AddToCart" method="post">
+            @Html.AntiForgeryToken()
+            <input name="ProductID" id="ProductID" value="@Model.Product.id" type="hidden" />
+            <div class="description">
+                <h2>@Model.Product.name</h2>
+                <p>@Html.Raw(Model.Product.description)</p>
+                @if (Model.Product.deluxePrice.HasValue)
+                {
+                    <div class="price-overridden">Original price: $@Model.Product.price</div>
+                    <div class="price-sale">On sale for: $@Model.Product.deluxePrice</div>
+                }
+                else
+                {
+                    <div class="price">Price: $@Model.Product.price</div>
+                }
+
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <div>Quantity: 
+                        <select id="quantity" name="quantity">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                        </select>
+                    </div>
+                    <div><button type="submit">Add To Cart</button></div>
+                }
+            </div>
+        </form>
+        <hr />
+        <div>
+            <h3>Reviews</h3>
+            @if (Model.ProductReviews.Any())
+            {
+                foreach (var review in Model.ProductReviews)
+                {
+                    <div>Review created by: @review.CreatedBy</div>
+                    <div>@Html.Raw(review.ReviewText)</div>
+                    <hr />
+                }
+            }
+            else
+            {
+                <div>(None)</div>
+            }
+
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <h4>Add Review</h4>
+                <form action="/Product/AddReview/@Model.Product.id">
+                    @Html.AntiForgeryToken()
+                    <textarea name="reviewText" id="reviewText"></textarea>
+                    <button type="submit">Save Review</button>
+                </form>
+            }
+        </div>
+    </div>
+</div>
+
